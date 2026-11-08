@@ -1108,6 +1108,12 @@ function AgentsSection({
   );
 }
 
+const DEFAULT_TASKS: Record<Scenario, string> = {
+  shop: 'Find a notebook, choose a variant, add it to the cart, and complete checkout with synthetic data. Report any errors or confusing interactions.',
+  portal:
+    'Find the Library service, open and close its panel, then add a class session to your plan. Report any errors or confusing interactions.',
+};
+
 function ControlRoom({
   runs,
   health,
@@ -1119,7 +1125,7 @@ function ControlRoom({
   healthError: string | null;
   onRefreshRuns: () => Promise<AgentRun[] | null>;
 }) {
-  const [task, setTask] = useState('');
+  const [task, setTask] = useState(DEFAULT_TASKS.shop);
   const [scenario, setScenario] = useState<Scenario>('shop');
   const [url, setUrl] = useState('');
   const [selectionMode, setSelectionMode] = useState<SelectionMode>('auto');
@@ -1305,7 +1311,11 @@ function ControlRoom({
                           name="scenario"
                           value={value}
                           checked={scenario === value}
-                          onChange={() => setScenario(value)}
+                          onChange={() => {
+                            if (!task.trim() || task === DEFAULT_TASKS[scenario])
+                              setTask(DEFAULT_TASKS[value]);
+                            setScenario(value);
+                          }}
                           data-testid={`scenario-${value}`}
                         />
                         <svg

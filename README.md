@@ -24,6 +24,6 @@ cp .env.example .env
 bun run db:start
 ```
 
-Publish the database module using the [database setup](spacetimedb/README.md), configure your model in `.env`, and run `bun run dev`.
+Publish the database module using the [database setup](spacetimedb/README.md), configure your model in `.env`, and run `bun run dev`. New runs include an editable task for the selected scenario.
 
 The demo uses controlled shopping and campus websites with intentional defects and clean verification twins. Interaction profiles are synthetic testing conditions, not validated demographic simulations. The recorded demo is not a benchmark result.

@@ -27,6 +27,7 @@ try {
   await page.getByTestId('scenario-portal').check();
   await page.getByTestId('scenario-shop').check();
   await page.locator('.sl-launch-disclosure summary').click();
+  await page.getByTestId('task-input').fill('');
   await page.getByTestId('launch-agents').click();
   await page.getByTestId('launch-error').waitFor();
   assert(
