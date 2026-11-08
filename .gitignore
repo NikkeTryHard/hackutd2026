@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.env
+data/
+artifacts/
+spacetimedb/target/
+.tools/
+spacetimedb/dist/
+.next/
+next-env.d.ts
+*.tsbuildinfo
+.env.*
+!.env.example
+.serena/

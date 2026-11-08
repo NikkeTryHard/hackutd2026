@@ -1,0 +1,29 @@
+[install]
+exact = true
+
+[test]
+root = "./src"
+
+[serve.static]
+env = "PUBLIC_*"
+
+[lint]
+typeAware = true
+
+[lint.rules]
+"eqeqeq" = ["error", "always"]
+"no-debugger" = "error"
+"no-eval" = "error"
+"no-implied-eval" = "error"
+"no-throw-literal" = "error"
+"prefer-const" = "error"
+"typescript/no-explicit-any" = "error"
+"typescript/no-non-null-assertion" = "error"
+"typescript/no-floating-promises" = "error"
+"typescript/no-misused-promises" = "error"
+
+[fmt]
+printWidth = 100
+semi = true
+singleQuote = true
+tabWidth = 2

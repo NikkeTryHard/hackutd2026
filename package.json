@@ -1,0 +1,41 @@
+{
+  "name": "sightline",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun scripts/serve.ts --dev",
+    "start": "bun scripts/serve.ts",
+    "start:backend": "bun src/server.ts",
+    "start:frontend": "bun --bun node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port 3000",
+    "start:demo": "bun --env-file=.env.demo scripts/serve.ts",
+    "start:model": "bun scripts/omp-model.ts",
+    "test": "bun test",
+    "build": "bun run check && bun --bun node_modules/next/dist/bin/next build",
+    "smoke": "bun scripts/database-smoke.ts && bun scripts/smoke.ts && bun scripts/worker-smoke.ts && bun scripts/ui-smoke.ts && bun scripts/verify-bundle.ts && bun scripts/finish-smoke.ts",
+    "preflight": "bun scripts/preflight.ts",
+    "db:start": "bun scripts/database.ts start",
+    "lint": "bun lint --no-script --type-aware --max-warnings=0 app src scripts spacetimedb/src next.config.ts",
+    "lint:fix": "bun lint --no-script --type-aware --max-warnings=0 --fix app src scripts spacetimedb/src next.config.ts",
+    "format": "bun fmt --no-script app src scripts next.config.ts spacetimedb/src spacetimedb/bindings spacetimedb/package.json spacetimedb/tsconfig.json spacetimedb/README.md package.json tsconfig.json bunfig.toml README.md",
+    "format:check": "bun fmt --no-script --check app src scripts next.config.ts spacetimedb/src spacetimedb/bindings spacetimedb/package.json spacetimedb/tsconfig.json spacetimedb/README.md package.json tsconfig.json bunfig.toml README.md",
+    "check": "bun check --no-script && bun check --no-script --project spacetimedb/tsconfig.json",
+    "quality": "bun run check && bun run lint && bun run format:check && bun test"
+  },
+  "dependencies": {
+    "@calcom/cal-sans-ui": "1.3.0",
+    "fflate": "0.8.3",
+    "next": "16.4.5",
+    "playwright": "1.65.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "sharp": "0.35.5",
+    "spacetimedb": "2.14.1"
+  },
+  "devDependencies": {
+    "@types/bun": "1.4.4",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "typescript": "7.0.2"
+  }
+}
