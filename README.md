@@ -8,7 +8,7 @@
 
 **UI/UX for the people, by the people.**
 
-Visual agents explore websites through screenshots, mouse movements, and keyboard input. Watch live browser previews, inspect findings, and guide each agent from its own workspace.
+Visual agents explore websites through screenshots, mouse movements, and keyboard input. Watch proportional live browsers with smooth profile-colored cursors, inspect tool calls and visible decision summaries, and guide each agent from its own workspace.
 
 ## Demo
 

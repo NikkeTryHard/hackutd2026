@@ -405,7 +405,7 @@
   font-size: 11px;
 }
 .ws-app .sl-frame--card {
-  aspect-ratio: 16/9;
+  aspect-ratio: 1280/800;
   height: auto;
   border: 0;
   border-radius: 0;
@@ -483,11 +483,15 @@
   flex: 1;
   display: flex;
   align-items: center;
+  justify-content: center;
+  container-type: size;
   overflow: hidden;
   background: #151719;
 }
 .ws-app .sl-browser-viewport .sl-frame--viewer {
-  width: 100%;
+  flex: none;
+  width: min(100cqw, 160cqh);
+  height: min(100cqh, 62.5cqw);
   aspect-ratio: 1280/800;
   border: 0;
   border-radius: 0;
@@ -714,4 +718,21 @@
   width: 100%;
   height: 100%;
   margin: 0;
+}
+.sl-tool-data {
+  margin-top: 8px;
+  font-size: 11px;
+}
+.sl-tool-data summary {
+  cursor: pointer;
+  color: var(--sl-ink-muted);
+}
+.sl-tool-data pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  padding: 10px;
+  border: 1px solid var(--sl-border);
+  border-radius: 6px;
+  max-height: 280px;
+  overflow: auto;
 }

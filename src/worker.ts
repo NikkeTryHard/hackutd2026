@@ -103,6 +103,8 @@ export interface ExecuteActionOptions {
   viewport?: ViewBox;
   /** Observation-to-viewport transform for coordinates in a crop image. */
   view?: ViewTransform;
+  /** Publish the actual mapped pointer position before executing browser input. */
+  onCursor?: (point: Point) => Promise<void>;
 }
 
 export interface ActionResult {
@@ -481,6 +483,7 @@ export async function executeAction(
         random,
         applyOffset,
       );
+      await options.onCursor?.(pointer.executed);
       if (action.type === 'click') await page.mouse.click(pointer.executed.x, pointer.executed.y);
       else await page.mouse.move(pointer.executed.x, pointer.executed.y);
       return {
@@ -506,8 +509,10 @@ export async function executeAction(
         random,
         applyOffset,
       );
+      await options.onCursor?.(start.executed);
       await page.mouse.move(start.executed.x, start.executed.y);
       await page.mouse.down();
+      await options.onCursor?.(end.executed);
       await page.mouse.move(end.executed.x, end.executed.y, { steps: 8 });
       await page.mouse.up();
       return {
@@ -1744,10 +1749,7 @@ async function addFinding(
   });
 }
 
-async function recordInterruption(
-  state: WorkerState,
-  messages: OperatorMessage[],
-): Promise<void> {
+async function recordInterruption(state: WorkerState, messages: OperatorMessage[]): Promise<void> {
   // Keep the messages delivered for the aborted call; they must be visible to
   // the next decision even though no action consumed them yet.
   state.carriedMessages = messages.slice(-MAX_MESSAGES_MODEL);
@@ -1893,6 +1895,9 @@ async function runLoop(state: WorkerState): Promise<Terminal> {
         seed: mixSeed(state.pointerSeed, state.step),
         signal: state.stop.signal,
         view: current.view,
+        onCursor: async (cursor) => {
+          await state.backend.patch(state.config.id, { cursor });
+        },
       });
     } catch (error) {
       if (error instanceof ProfileViolationError) {
@@ -1926,9 +1931,6 @@ async function runLoop(state: WorkerState): Promise<Terminal> {
         ...decisionMetaData(decision),
       },
     });
-    const cursor = result.executedTo ?? result.executed;
-    if (cursor)
-      await state.backend.patch(state.config.id, { cursor: { x: cursor.x, y: cursor.y } });
     state.carriedMessages = [];
     await delay(SETTLE_MS);
   }

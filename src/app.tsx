@@ -1561,23 +1561,7 @@ function AgentDetail({
     '#b1a1ec',
     '#b9c4cc',
   ][PROFILE_IDS.indexOf(run.config.profile)];
-  const timeline = run.events.filter(
-    (e, i) =>
-      i === 0 ||
-      [
-        'action',
-        'finding',
-        'error',
-        'finished',
-        'completed',
-        'message_applied',
-        'decision',
-        'claim',
-        'state',
-        'control',
-        'message',
-      ].includes(e.kind),
-  );
+  const timeline = run.events;
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!message.trim() || sending || terminal) return;
@@ -1655,6 +1639,12 @@ function AgentDetail({
                     <time>{formatClock(event.at)}</time>
                     <strong>{humanizeKey(event.kind)}</strong>
                     <p>{event.text}</p>
+                    {event.data && (
+                      <details className="sl-tool-data">
+                        <summary>Inputs and result</summary>
+                        <pre>{JSON.stringify(event.data, null, 2)}</pre>
+                      </details>
+                    )}
                   </li>
                 ))}
               </ol>
