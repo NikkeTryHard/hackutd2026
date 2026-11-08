@@ -343,7 +343,13 @@ async function registeredArtifact(path: string) {
   const runs = await backend.list();
   if (
     !runs.some(
-      (run) => run.latestFrame === path || run.events.some((event) => event.artifact === path),
+      (run) =>
+        run.latestFrame === path ||
+        run.events.some((event) => event.artifact === path) ||
+        // Recent screencast frames remain on disk briefly after latestFrame advances.
+        // Authorize only generated frame names owned by a registered run.
+        (name.startsWith(`${run.config.id}-`) &&
+          /^\d{13}-[0-9a-f-]{36}\.jpg$/.test(name.slice(run.config.id.length + 1))),
     )
   )
     throw new InputError('Artifact not found', 404);
